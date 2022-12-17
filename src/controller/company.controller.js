@@ -84,13 +84,13 @@ exports.deleteCompany = (req, res) => {
     if (data.rows.length === 0) {
       return res.status(400).json({
         success: false,
-        message: "Skill doesn't exist",
+        message: "Company doesn't exist",
       });
     }
 
     return res.status(200).json({
       success: true,
-      message: "Skill Deleted",
+      message: "Company Deleted",
       results: data.rows,
     });
   });
