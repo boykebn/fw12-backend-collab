@@ -1,21 +1,21 @@
-const {selectAllSkills, selectSkill, insertSkill, patchSkill, deleteSkill } = require('../models/skills.model')
+const {selectAllUserSkills, selectUserSkill, insertUserSkill, patchUserSkill, deleteUserSkill } = require('../models/Userskills.model')
 
-exports.readAllSkills = (req, res) => {
-  selectAllSkills((err, result) => {
+exports.readAllUserSkills = (req, res) => {
+  selectAllUserSkills((err, result) => {
     if (err) {
       console.log(err);
     }
 
     return res.status(200).json({
       success: true,
-      message: "List of skills",
+      message: "List of user skills",
       results: result.rows,
     });
   });
 };
 
-exports.readSkill = (req, res) => {
-  selectSkill(req.params.id, (err, result) => {
+exports.readUserSkill = (req, res) => {
+  selectUserSkill(req.params.id, (err, result) => {
     if (err) {
       console.log(err);
     }
@@ -23,10 +23,10 @@ exports.readSkill = (req, res) => {
     if (result.rows.length === 0) {
       return res.status(400).json({
         success: false,
-        message: "Skill not found",
+        message: "User skill not found",
       });
     }
-
+    
     return res.status(200).json({
       success: true,
       results: result.rows[0],
@@ -34,43 +34,22 @@ exports.readSkill = (req, res) => {
   });
 };
 
-exports.createSkill = (req, res) => {
-  insertSkill(req.body, (err, result) => {
+exports.createUserSkill = (req, res) => {
+  insertUserSkill(req.body, (err, result) => {
     if (err) {
       console.log(err);
     }
 
     return res.status(200).json({
       success: true,
-      message: "Skill created successfully",
+      message: "User skill created successfully",
       results: result.rows[0],
     });
   });
 };
 
-exports.updateSkill = (req, res) => {
-  patchSkill(req.params.id, req.body, (err, result) => {
-    if (err) {
-      console.log(err);
-    }
-
-    if (result.rows.length === 0) {
-      return res.status(400).json({
-        success: false,
-        message: "Skill doesn't exist",
-      });
-    }
-
-    return res.status(200).json({
-      success: true,
-      message: "Skill Updated",
-      results: result.rows[0],
-    });
-  });
-};
-
-exports.deleteSkill = (req, res) => {
-  deleteSkill(req.params.id, (err, result) => {
+exports.updateUserSkill = (req, res) => {
+  patchUserSkill(req.params.id, req.body, (err, result) => {
     if (err) {
       console.log(err);
     }
@@ -78,13 +57,34 @@ exports.deleteSkill = (req, res) => {
     if (result.rows.length === 0) {
       return res.status(400).json({
         success: false,
-        message: "Skill doesn't exist",
+        message: "User skill doesn't exist",
       });
     }
 
     return res.status(200).json({
       success: true,
-      message: "Skill Deleted",
+      message: "User skill Updated",
+      results: result.rows[0],
+    });
+  });
+};
+
+exports.deleteUserSkill = (req, res) => {
+  deleteUserSkill(req.params.id, (err, result) => {
+    if (err) {
+      console.log(err);
+    }
+
+    if (result.rows.length === 0) {
+      return res.status(400).json({
+        success: false,
+        message: "User skill doesn't exist",
+      });
+    }
+
+    return res.status(200).json({
+      success: true,
+      message: "User skill Deleted",
       results: result.rows[0],
     });
   });
