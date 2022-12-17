@@ -1,6 +1,5 @@
 -- CREATE DATABASE peworld_app;
 
-
 CREATE TABLE "users" (
     "id"            INT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
     "picture"       VARCHAR(255),
