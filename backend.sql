@@ -76,6 +76,7 @@ CREATE TABLE "experiences"(
 CREATE TABLE "contact"(
     "id" INT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
     "userId" INT NOT NULL REFERENCES users(id),
+    "purposeId" INT NOT NULL REFERENCES purpose(id),
     "message" VARCHAR(255) NOT NULL,
     "file" VARCHAR(255) NOT NULL,
     "createdAt" TIMESTAMPTZ DEFAULT now(),
