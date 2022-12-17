@@ -26,10 +26,11 @@ exports.patchCompany = (id, data, callback) => {
   const sql = `UPDATE company SET 
   "name"=COALESCE(NULLIF($1, ''), "name"), 
   "field"=COALESCE(NULLIF($2, ''), "field"), 
-  "userId"=COALESCE(NULLIF($3, '')::INTEGER, "userId") 
-  WHERE id=$4 RETURNING *`;
+  "userId"=COALESCE(NULLIF($3, '')::INTEGER, "userId"),
+  "updatedAt"= $4
+  WHERE id=$5 RETURNING *`;
 
-  const values = [data.name, data.field, data.userId, id];
+  const values = [data.name, data.field, data.userId, new Date(), id];
 
   return db.query(sql, values, callback);
 };

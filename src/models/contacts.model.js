@@ -26,10 +26,11 @@ exports.patchContact = (id, data, callback) => {
   const sql = `UPDATE contact SET 
   "userId"=COALESCE(NULLIF($1, '')::INTEGER, "userId"),
   "message"=COALESCE(NULLIF($2, ''), "message"), 
-  "file"=COALESCE(NULLIF($3, ''), "file")
-  WHERE id=$4 RETURNING *`;
+  "file"=COALESCE(NULLIF($3, ''), "file"),
+  "updatedAt"= $4
+  WHERE id=$5 RETURNING *`;
 
-  const values = [data.userId, data.message, data.file, id];
+  const values = [data.userId, data.message, data.file, new Date(), id];
 
   return db.query(sql, values, callback);
 };
