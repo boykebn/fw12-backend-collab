@@ -23,9 +23,9 @@ exports.insertUserSkill = (data, callback) => {
 };
 
 exports.patchUserSkill = (id, data, callback) => {
-  const sql = `UPDATE "userSkills" SET "userId"=COALESCE(NULLIF($1, '')::INTEGER, "userId"), "skillId"=COALESCE(NULLIF($2, '')::INTEGER, "skillId") WHERE id=$3 RETURNING *`;
+  const sql = `UPDATE "userSkills" SET "userId"=COALESCE(NULLIF($1, '')::INTEGER, "userId"), "skillId"=COALESCE(NULLIF($2, '')::INTEGER, "skillId"), "updatedAt"=$3 WHERE id=$4 RETURNING *`;
 
-  const values = [data.userId, data.skillId, id];
+  const values = [data.userId, data.skillId, new Date(), id];
 
   return db.query(sql, values, callback);
 };

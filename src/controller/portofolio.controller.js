@@ -55,7 +55,7 @@ exports.createPortofolio = (req, res) => {
 };
 
 exports.UpdatePortofolio = (req, res) => {
-  updatePortofolio(req.params.id, (err, data) => {
+  updatePortofolio(req.params.id, req.body,(err, data) => {
     if (err) {
       console.log(err);
     }

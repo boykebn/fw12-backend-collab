@@ -18,8 +18,8 @@ exports.insertPortofolio = (data, cb) => {
 };
 
 exports.updatePortofolio = (id, data, cb) => {
-    const sql = `UPDATE "portofolio" SET "link" = COALESCE(NULLIF($1, '')::VARCHAR, "link"), "userId" = COALESCE(NULLIF($2, '')::INT, "userId"), "name" = COALESCE(NULLIF($3, '')::VARCHAR, "name"), "picture" = COALESCE(NULLIF($4, '')::VARCHAR. "picture") WHERE id = $5 RETURNING *`;
-    const values = [data.link, data.userId, data.name, data.picture, id];
+    const sql = `UPDATE "portofolio" SET "link" = COALESCE(NULLIF($1, '')::VARCHAR, "link"), "userId" = COALESCE(NULLIF($2, '')::INT, "userId"), "name" = COALESCE(NULLIF($3, '')::VARCHAR, "name"), "picture" = COALESCE(NULLIF($4, '')::VARCHAR. "picture"), "updatedAt"=$5 WHERE id = $6 RETURNING *`;
+    const values = [data.link, data.userId, data.name, data.picture, new Date(), id];
     db.query(sql, values, cb);
 };
 

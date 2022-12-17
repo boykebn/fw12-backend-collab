@@ -55,7 +55,7 @@ exports.createPurpose = (req, res) => {
 };
 
 exports.UpdatePurpose = (req, res) => {
-  updatePurpose(req.params.id, (err, data) => {
+  updatePurpose(req.params.id, req.body,(err, data) => {
     if (err) {
       console.log(err);
     }

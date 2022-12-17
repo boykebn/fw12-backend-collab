@@ -55,7 +55,7 @@ exports.createResetPassword = (req, res) => {
 };
 
 exports.UpdateResetPassword = (req, res) => {
-  updateResetPassword(req.params.id, (err, data) => {
+  updateResetPassword(req.params.id, req.body, (err, data) => {
     if (err) {
       console.log(err);
     }

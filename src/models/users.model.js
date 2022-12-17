@@ -32,10 +32,10 @@ exports.insertUser = (data, callback) => {
 
 exports.patchUser = (id, data, callback) => {
     const sql = `UPDATE users SET "picture"=COALESCE(NULLIF($1, ''), "picture"), "name"=COALESCE(NULLIF($2, ''), "name"), "phoneNumber"=COALESCE(NULLIF($3, ''), "phoneNumber"), "email"=COALESCE(NULLIF($4, ''), "email"), "password"=COALESCE(NULLIF($5, ''), "password", "address"=COALESCE(NULLIF($6, ''), "address")), "bio"=COALESCE(NULLIF($7, '')::TEXT, "bio"),
-    "jobDesk"=COALESCE(NULLIF($8, ''), "jobDesk"),"instagram"=COALESCE(NULLIF($9, ''), "instagram"), "linkedin"=COALESCE(NULLIF($10, ''), "linkedin"), "github"=COALESCE(NULLIF($11, ''), "github"), "gitlab"=COALESCE(NULLIF($12, ''), "gitlab"), "status"=COALESCE(NULLIF($13, ''), "status"), "status"=COALESCE(NULLIF($14, ''), "status")
-    WHERE id=$15 RETURNING *`
+    "jobDesk"=COALESCE(NULLIF($8, ''), "jobDesk"),"instagram"=COALESCE(NULLIF($9, ''), "instagram"), "linkedin"=COALESCE(NULLIF($10, ''), "linkedin"), "github"=COALESCE(NULLIF($11, ''), "github"), "gitlab"=COALESCE(NULLIF($12, ''), "gitlab"), "status"=COALESCE(NULLIF($13, ''), "status"), "status"=COALESCE(NULLIF($14, ''), "status"), "updatedAt"=$15
+    WHERE id=$16 RETURNING *`
 
-    const values = [data.picture, data.name, data.phoneNumber, data.email, data.password, data.address, data.bio, data.jobDesk, data.instagram, data.linkedin, data.github, data.gitlab, data.status, data.role, id] 
+    const values = [data.picture, data.name, data.phoneNumber, data.email, data.password, data.address, data.bio, data.jobDesk, data.instagram, data.linkedin, data.github, data.gitlab, data.status, data.role, new Date(),id] 
 
     return db.query(sql, values, callback)
 }
