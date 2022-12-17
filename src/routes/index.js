@@ -9,5 +9,6 @@ routes.use("/portofolio", require('./portofolio.router'));
 routes.use("/company", require("./company.router"));
 routes.use("/contacts", require("./contacts.router"));
 routes.use("/experiences", require("./experiences.router"));
+routes.use("/auth", require("./auth.router"));
 
 module.exports = routes;

@@ -14,6 +14,14 @@ exports.selectUser = (id, callback) => {
     return db.query(sql, values, callback)
 }
 
+exports.selectUserByEmail = (email, callback) => {
+    const sql = `SELECT * FROM users WHERE email=$1`
+
+    const values = [email]
+
+    return db.query(sql, values, callback)
+}
+
 exports.insertUser = (data, callback) => {
     const sql = `INSERT INTO users ("picture", "name", "phoneNumber", "email", "password", "address", "bio", "jobDesk", "instagram", "linkedin", "github", gitlab", "status", "role") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14)`
 
