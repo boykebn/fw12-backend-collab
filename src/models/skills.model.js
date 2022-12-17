@@ -23,9 +23,9 @@ exports.insertSkill = (data, callback) => {
 }
 
 exports.patchSkill = (id, data, callback) => {
-    const sql = `UPDATE skills SET "name"=COALESCE(NULLIF($1, ''), "name") WHERE id=$2 RETURNING *`
+    const sql = `UPDATE skills SET "name"=COALESCE(NULLIF($1, ''), "name"), "updatedAt"=$2 WHERE id=$3 RETURNING *`
 
-    const values = [data.name, id]
+    const values = [data.name, new Date(),id]
 
     return db.query(sql, values, callback)
 }

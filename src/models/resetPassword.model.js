@@ -18,8 +18,8 @@ exports.insertResetPassword = (data, cb) => {
 };
 
 exports.updateResetPassword = (id, data, cb) => {
-    const sql = `UPDATE "resetPassword" SET "code" = COALESCE(NULLIF($1, '')::VARCHAR, "code"), "userId" = COALESCE(NULLIF($2, '')::INT, "userId") WHERE id = $3 RETURNING *`;
-    const values = [data.code, data.userId, id];
+    const sql = `UPDATE "resetPassword" SET "code" = COALESCE(NULLIF($1, '')::VARCHAR, "code"), "userId" = COALESCE(NULLIF($2, '')::INT, "userId"), "updatedAt"=$3 WHERE id = $4 RETURNING *`;
+    const values = [data.code, data.userId, new Date(), id];
     db.query(sql, values, cb);
 };
 

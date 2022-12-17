@@ -21,13 +21,6 @@ app.get("/", (req, res) => {
   });
 });
 
-app.get("/", (req, res) => {
-  res.json({
-    success: true,
-    message: "berhasil",
-  });
-});
-
 app.listen(port, () => {
   console.log(`app listening on port ${port}`);
 });

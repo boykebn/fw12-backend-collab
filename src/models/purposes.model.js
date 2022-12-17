@@ -18,8 +18,8 @@ exports.insertPurpose = (data, cb) => {
 };
 
 exports.updatePurpose = (id, data, cb) => {
-    const sql = `UPDATE "purpose" SET "name" = COALESCE(NULLIF($1, '')::VARCHAR, "picture") WHERE id = $2 RETURNING *`;
-    const values = [data.picture, id];
+    const sql = `UPDATE "purpose" SET "name" = COALESCE(NULLIF($1, '')::VARCHAR, "picture"), "updatedAt"=$2 WHERE id = $3 RETURNING *`;
+    const values = [data.picture, new Date(), id];
     db.query(sql, values, cb);
 };
 
