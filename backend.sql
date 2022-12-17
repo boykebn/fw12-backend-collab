@@ -24,9 +24,9 @@ CREATE TABLE "company" (
     "id" INT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
     "name"   VARCHAR(255) NOT NULL,
     "field"  VARCHAR(255),
-    "userId" INT NOT NULL REFERENCES users(id),
+    "userId" INT NOT NULL REFERENCES users(id) ON DELETE CASCADE ON UPDATE CASCADE,
     "createdAt" TIMESTAMPTZ DEFAULT now(),
-    "updatedAt" TIMESTAMPTZ,
+    "updatedAt" TIMESTAMPTZ
 );
 
 CREATE TABLE "skills" (
@@ -38,15 +38,15 @@ CREATE TABLE "skills" (
 
 CREATE TABLE "userSkills"(
     "id" INT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
-    "userId" INT NOT NULL REFERENCES users(id),
-    "skillId" INT NOT NULL REFERENCES skills(id),
+    "userId" INT NOT NULL REFERENCES users(id) ON DELETE CASCADE ON UPDATE CASCADE,
+    "skillId" INT NOT NULL REFERENCES skills(id) ON DELETE CASCADE ON UPDATE CASCADE,
     "createdAt" TIMESTAMPTZ DEFAULT now(),
     "updatedAt" TIMESTAMPTZ 
 );
 CREATE TABLE "resetPassword"(
     "id" INT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
     "code" VARCHAR(225) NOT NULL,
-    "userId" INT NOT NULL REFERENCES users(id),
+    "userId" INT NOT NULL REFERENCES users(id) ON DELETE CASCADE ON UPDATE CASCADE,
     "createdAt" TIMESTAMPTZ DEFAULT now(),
     "updatedAt" TIMESTAMPTZ 
 );
@@ -54,7 +54,7 @@ CREATE TABLE "resetPassword"(
 CREATE TABLE "portofolio"(
     "id" INT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
     "link" VARCHAR(225) NOT NULL,
-    "userId" INT NOT NULL REFERENCES users(id),
+    "userId" INT NOT NULL REFERENCES users(id) ON DELETE CASCADE ON UPDATE CASCADE,
     "name" VARCHAR(225) NOT NULL,
     "picture" VARCHAR(225) NOT NULL,
     "createdAt" TIMESTAMPTZ DEFAULT now(),
@@ -65,20 +65,10 @@ CREATE TABLE "experiences"(
     "id" INT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
     "companyName" VARCHAR(225) NOT NULL,
     "position" VARCHAR(225) NOT NULL,
-    "userId" INT NOT NULL REFERENCES users(id),
+    "userId" INT NOT NULL REFERENCES users(id) ON DELETE CASCADE ON UPDATE CASCADE,
     "joinDate" TIMESTAMP NOT NULL,
     "outDate" TIMESTAMP NOT NULL,
     "description" VARCHAR(225) NOT NULL,
-    "createdAt" TIMESTAMPTZ DEFAULT now(),
-    "updatedAt" TIMESTAMPTZ 
-);
-
-CREATE TABLE "contact"(
-    "id" INT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
-    "userId" INT NOT NULL REFERENCES users(id),
-    "purposeId" INT NOT NULL REFERENCES purpose(id),
-    "message" VARCHAR(255) NOT NULL,
-    "file" VARCHAR(255) NOT NULL,
     "createdAt" TIMESTAMPTZ DEFAULT now(),
     "updatedAt" TIMESTAMPTZ 
 );
@@ -89,3 +79,17 @@ CREATE TABLE "purpose"(
     "createdAt" TIMESTAMPTZ DEFAULT now(),
     "updatedAt" TIMESTAMPTZ 
 );
+
+CREATE TABLE "contact"(
+    "id" INT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
+    "userId" INT NOT NULL REFERENCES users(id) ON DELETE CASCADE ON UPDATE CASCADE,
+    "purposeId" INT NOT NULL REFERENCES purpose(id) ON DELETE CASCADE ON UPDATE CASCADE,
+    "message" VARCHAR(255) NOT NULL,
+    "file" VARCHAR(255) NOT NULL,
+    "createdAt" TIMESTAMPTZ DEFAULT now(),
+    "updatedAt" TIMESTAMPTZ 
+);
+
+ALTER TABLE users ADD CONSTRAINT users_email_unique UNIQUE (email);
+
+ALTER TABLE users ADD CONSTRAINT users_phoneNumber_unique UNIQUE ("phoneNumber");
