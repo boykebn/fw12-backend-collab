@@ -51,3 +51,41 @@ CREATE TABLE "resetPassword"(
     "createdAt" TIMESTAMPTZ DEFAULT now(),
     "updatedAt" TIMESTAMPTZ 
 );
+
+CREATE TABLE "portofolio"(
+    "id" INT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
+    "link" VARCHAR(225) NOT NULL,
+    "userId" INT NOT NULL REFERENCES users(id),
+    "name" VARCHAR(225) NOT NULL,
+    "picture" VARCHAR(225) NOT NULL,
+    "createdAt" TIMESTAMPTZ DEFAULT now(),
+    "updatedAt" TIMESTAMPTZ 
+);
+
+CREATE TABLE "experiences"(
+    "id" INT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
+    "companyName" VARCHAR(225) NOT NULL,
+    "position" VARCHAR(225) NOT NULL,
+    "userId" INT NOT NULL REFERENCES users(id),
+    "joinDate" TIMESTAMP NOT NULL,
+    "outDate" TIMESTAMP NOT NULL,
+    "description" VARCHAR(225) NOT NULL,
+    "createdAt" TIMESTAMPTZ DEFAULT now(),
+    "updatedAt" TIMESTAMPTZ 
+);
+
+CREATE TABLE "contact"(
+    "id" INT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
+    "userId" INT NOT NULL REFERENCES users(id),
+    "message" VARCHAR(255) NOT NULL,
+    "file" VARCHAR(255) NOT NULL,
+    "createdAt" TIMESTAMPTZ DEFAULT now(),
+    "updatedAt" TIMESTAMPTZ 
+);
+
+CREATE TABLE "purpose"(
+    "id" INT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
+    "name" VARCHAR(255) NOT NULL,
+    "createdAt" TIMESTAMPTZ DEFAULT now(),
+    "updatedAt" TIMESTAMPTZ 
+);
