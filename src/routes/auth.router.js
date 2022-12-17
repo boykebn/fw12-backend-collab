@@ -1,6 +1,25 @@
-const authRouter = require('express').Router()
-const { login } = require('../controller/auth.controller')
+const authRouter = require("express").Router();
+const { check } = require("express-validator");
 
-authRouter.post('/login', login)
+const {
+  login,
+  registerEmploye,
+  registerRecruter,
+} = require("../controller/auth.controller");
 
-module.exports = authRouter
+authRouter.post("/login", login);
+
+authRouter.post(
+  "/register-employe",
+  check("email", "Email invalid").isEmail(),
+  check("phoneNumber", "Phone Number invalid").isMobilePhone("id-ID"),
+  registerEmploye
+);
+authRouter.post(
+  "/register-recruter",
+  check("email", "Email invalid").isEmail(),
+  check("phoneNumber", "Phone Number invalid").isMobilePhone("id-ID"),
+  registerRecruter
+);
+
+module.exports = authRouter;
