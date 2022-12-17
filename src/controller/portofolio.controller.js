@@ -1,27 +1,27 @@
 const {
-  selectAllResetPassword,
-  selectResetPasswordById,
-  insertResetPassword,
-  updateResetPassword,
-  deletedResetPassword,
-} = require("../models/resetPassword.model");
+  selectAllPortofolio,
+  selectPortofolioeById,
+  insertPortofolio,
+  updatePortofolio,
+  deletedPortofolio,
+} = require("../models/portofolio.model");
 
-exports.readAllResetPassword = (req, res) => {
-  selectAllResetPassword((err, data) => {
+exports.readAllPortofolio = (req, res) => {
+  selectAllPortofolio((err, data) => {
     if (err) {
       console.log(err);
       //   return errorHandler(err, res);
     }
     return res.status(200).json({
       succes: true,
-      message: "List of Reset Password",
+      message: "List of Portofolio",
       results: data.rows,
     });
   });
 };
 
-exports.readResetPasswordById = (req, res) => {
-  selectResetPasswordById(req.params, (err, data) => {
+exports.readPortofolioById = (req, res) => {
+  selectPortofolioeById(req.params, (err, data) => {
     if (err) {
       console.log(err);
     }
@@ -29,33 +29,33 @@ exports.readResetPasswordById = (req, res) => {
     if (data.rows.length === 0) {
       return res.status(400).json({
         success: false,
-        message: "Reset Password not found",
+        message: "Portofolio not found",
       });
     }
 
     return res.status(200).json({
       succes: true,
-      message: "List of Reset Password By Id",
+      message: "List of Portofolio By Id",
       results: data.rows[0],
     });
   });
 };
 
-exports.createResetPassword = (req, res) => {
-  insertResetPassword(req.body, (err, data) => {
+exports.createPortofolio = (req, res) => {
+  insertPortofolio(req.body, (err, data) => {
     if (err) {
       console.log(err);
     }
     return res.status(200).json({
       succes: true,
-      message: "Create Reset Password succes",
+      message: "Create Portofolio succes",
       results: data.rows[0],
     });
   });
 };
 
-exports.UpdateResetPassword = (req, res) => {
-  updateResetPassword(req.params.id, (err, data) => {
+exports.UpdatePortofolio = (req, res) => {
+  updatePortofolio(req.params.id, (err, data) => {
     if (err) {
       console.log(err);
     }
@@ -63,20 +63,20 @@ exports.UpdateResetPassword = (req, res) => {
     if (data.rows.length === 0) {
       return res.status(400).json({
         success: false,
-        message: "Reset Password doesn't exist",
+        message: "Portofolio doesn't exist",
       });
     }
 
     return res.status(200).json({
       succes: true,
-      message: "Update Reset Password succes",
+      message: "Update Portofolio succes",
       results: data.rows,
     });
   });
 };
 
-exports.deleteResetPassword = (req, res) => {
-  deletedResetPassword(req.params, (err, data) => {
+exports.deletePortofolio = (req, res) => {
+  deletedPortofolio(req.params, (err, data) => {
     if (err) {
       console.log(err);
     }
@@ -84,13 +84,13 @@ exports.deleteResetPassword = (req, res) => {
     if (data.rows.length === 0) {
       return res.status(400).json({
         success: false,
-        message: "Reset Password doesn't exist",
+        message: "Portofolio doesn't exist",
       });
     }
 
     return res.status(200).json({
       succes: true,
-      message: "Delete Reset Password succes",
+      message: "Delete Portofolio succes",
       results: data.rows,
     });
   });
