@@ -48,7 +48,7 @@ CREATE TABLE "resetPassword"(
     "code" VARCHAR(225) NOT NULL,
     "userId" INT NOT NULL REFERENCES users(id) ON DELETE CASCADE ON UPDATE CASCADE,
     "createdAt" TIMESTAMPTZ DEFAULT now(),
-    "updatedAt" TIMESTAMPTZ 
+    "updatedAt" TIMESTAMPTZ
 );
 
 CREATE TABLE "portofolio"(
@@ -93,3 +93,5 @@ CREATE TABLE "contact"(
 ALTER TABLE users ADD CONSTRAINT users_email_unique UNIQUE (email);
 
 ALTER TABLE users ADD CONSTRAINT users_phoneNumber_unique UNIQUE ("phoneNumber");
+
+ALTER TABLE "resetPassword" ADD COLUMN email VARCHAR(255) NOT NULL;
