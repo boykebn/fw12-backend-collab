@@ -11,7 +11,6 @@ CREATE TABLE "users" (
     "bio"           TEXT,
     "jobDesk"       VARCHAR(255),
     "instagram"     VARCHAR(255),
-    "linkedin"   VARCHAR(255),
     "github"        VARCHAR(255),
     "gitlab"        VARCHAR(255),
     "status"        VARCHAR(255),
@@ -21,12 +20,18 @@ CREATE TABLE "users" (
 );
 
 CREATE TABLE "company" (
-    "id" INT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
-    "name"   VARCHAR(255) NOT NULL,
-    "field"  VARCHAR(255),
-    "userId" INT NOT NULL REFERENCES users(id) ON DELETE CASCADE ON UPDATE CASCADE,
-    "createdAt" TIMESTAMPTZ DEFAULT now(),
-    "updatedAt" TIMESTAMPTZ
+    "id"            INT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
+    "name"          VARCHAR(255) NOT NULL,
+    "field"         VARCHAR(255) NOT NULL,
+    "email"         VARCHAR(255),
+    "phoneNumber"   VARCHAR(255),
+    "address"       VARCHAR(255),
+    "bio"           TEXT,
+    "instagram"     VARCHAR(255),
+    "linkedin"      VARCHAR(255),
+    "userId"        INT NOT NULL REFERENCES users(id) ON DELETE CASCADE ON UPDATE CASCADE,
+    "createdAt"     TIMESTAMPTZ DEFAULT now(),
+    "updatedAt"     TIMESTAMPTZ
 );
 
 CREATE TABLE "skills" (
