@@ -5,6 +5,8 @@ const {
   login,
   registerEmploye,
   registerRecruter,
+  forgotPassword,
+  resetPassword,
 } = require("../controller/auth.controller");
 
 authRouter.post("/login", login);
@@ -21,5 +23,8 @@ authRouter.post(
   check("phoneNumber", "Phone Number invalid").isMobilePhone("id-ID"),
   registerRecruter
 );
+
+authRouter.post('/forgotPassword', forgotPassword);
+authRouter.post('/resetPassword', resetPassword)
 
 module.exports = authRouter;
