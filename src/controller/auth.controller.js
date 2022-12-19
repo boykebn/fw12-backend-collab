@@ -137,7 +137,7 @@ exports.forgotPassword = (req, res) => {
       const data = {
         email,
         userId: users.id,
-        codeUnique: Math.ceil(Math.random() * 90000),
+        code: Math.ceil(Math.random() * 90000),
       };
       insertResetPassword(data, (err, results) => {
         if (results.rows.length) {
