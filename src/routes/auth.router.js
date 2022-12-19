@@ -20,7 +20,6 @@ authRouter.post(
 authRouter.post(
   "/register-recruiter",
   check("email", "Email invalid").isEmail(),
-  check("phoneNumber", "Phone Number invalid").isMobilePhone("id-ID"),
   registerRecruter
 );
 
