@@ -145,7 +145,7 @@ exports.forgotPassword = (req, res) => {
 exports.resetPassword = (req, res) => {
   const { password, confirmPassword } = req.body;
   if (password === confirmPassword) {
-    selectResetPasswordByEmailAndCode(req.body, (err, { rows: user }) => {
+    selectResetPasswordByEmailAndCode(req.body, async (err, { rows: user }) => {
       if (err) {
         return errorHandler(err, res);
       }
@@ -156,6 +156,7 @@ exports.resetPassword = (req, res) => {
           if (new Date(resetRequest.createdAt).getTime() + 15 * 60 * 1000 < new Date().getTime()) {
             throw Error("backend error: code_expired");
           }
+          const password = await argon.hash(password)
           patchUser(resetRequest.userId, { password }, (err, { rows: user }) => {
             if (err) {
               return errorHandler(err, res);
