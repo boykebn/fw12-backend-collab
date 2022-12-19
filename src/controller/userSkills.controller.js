@@ -1,4 +1,10 @@
-const {selectAllUserSkills, selectUserSkill, insertUserSkill, patchUserSkill, deleteUserSkill } = require('../models/Userskills.model')
+const {
+  selectAllUserSkills,
+  selectUserSkill,
+  insertUserSkill,
+  patchUserSkill,
+  deleteUserSkill,
+} = require("../models/userSkills.model");
 
 exports.readAllUserSkills = (req, res) => {
   selectAllUserSkills((err, result) => {
@@ -26,7 +32,7 @@ exports.readUserSkill = (req, res) => {
         message: "User skill not found",
       });
     }
-    
+
     return res.status(200).json({
       success: true,
       results: result.rows[0],

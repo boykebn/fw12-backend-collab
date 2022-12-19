@@ -1,4 +1,10 @@
-const {selectAllSkills, selectSkill, insertSkill, patchSkill, deleteSkill } = require('../models/skills.model')
+const {
+  selectAllSkills,
+  selectSkill,
+  insertSkill,
+  patchSkill,
+  deleteSkill,
+} = require("../models/skills.model");
 
 exports.readAllSkills = (req, res) => {
   selectAllSkills((err, result) => {
