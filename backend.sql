@@ -14,7 +14,6 @@ CREATE TABLE "users" (
     "github"        VARCHAR(255),
     "gitlab"        VARCHAR(255),
     "status"        VARCHAR(255),
-    "linkedin"      VARCHAR(255),
     "role"        VARCHAR(255) NOT NULL,
     "createdAt"     TIMESTAMPTZ DEFAULT now(),
     "updatedAt"     TIMESTAMPTZ
@@ -24,6 +23,12 @@ CREATE TABLE "company" (
     "id"            INT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
     "name"          VARCHAR(255) NOT NULL,
     "field"         VARCHAR(255) NOT NULL,
+    "email"         VARCHAR(255),
+    "phoneNumber"   VARCHAR(255),
+    "address"       VARCHAR(255),
+    "bio"           TEXT,
+    "instagram"     VARCHAR(255),
+    "linkedin"      VARCHAR(255),
     "userId"        INT NOT NULL REFERENCES users(id) ON DELETE CASCADE ON UPDATE CASCADE,
     "createdAt"     TIMESTAMPTZ DEFAULT now(),
     "updatedAt"     TIMESTAMPTZ
