@@ -15,9 +15,9 @@ exports.selectCompany = (id, callback) => {
 };
 
 exports.insertCompany = (data, callback) => {
-  const sql = `INSERT INTO company ("name","field","email","phoneNumber","address","bio","instagram","linkedin","userId") VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9) RETURNING *`;
+  const sql = `INSERT INTO company ("name","field","userId") VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9) RETURNING *`;
 
-  const values = [data.name, data.field, data.email, data.phoneNumber, data.address, data.bio, data.instagram, data.linkedin, data.userId];
+  const values = [data.name, data.field, data.userId];
 
   return db.query(sql, values, callback);
 };
@@ -26,17 +26,11 @@ exports.patchCompany = (id, data, callback) => {
   const sql = `UPDATE company SET 
   "name"=COALESCE(NULLIF($1, ''), "name"), 
   "field"=COALESCE(NULLIF($2, ''), "field"), 
-  "email"=COALESCE(NULLIF($3, ''), "email"),
-  "phoneNumber"=COALESCE(NULLIF($4, ''), "phoneNumber"),
-  "address"=COALESCE(NULLIF($5, ''), "address"),
-  "bio"=COALESCE(NULLIF($6, '')::TEXT, "bio"),
-  "instagram"=COALESCE(NULLIF($7, ''), "instagram"),
-  "linkedin"=COALESCE(NULLIF($8, ''), "linkedin"),
-  "userId"=COALESCE(NULLIF($9, '')::INTEGER, "userId"),
-  "updatedAt"= $10
-  WHERE id=$11 RETURNING *`;
+  "userId"=COALESCE(NULLIF($3, '')::INTEGER, "userId"),
+  "updatedAt"= $4
+  WHERE id=$5 RETURNING *`;
 
-  const values = [data.name, data.field, data.email, data.phoneNumber, data.address, data.bio, data.instagram, data.linkedin, data.userId, new Date(), id];
+  const values = [data.name, data.field, data.userId, new Date(), id];
 
   return db.query(sql, values, callback);
 };
