@@ -156,13 +156,16 @@ exports.resetPassword = (req, res) => {
           if (new Date(resetRequest.createdAt).getTime() + 15 * 60 * 1000 < new Date().getTime()) {
             throw Error("backend error: code_expired");
           }
-          const password = await argon.hash(password)
-          patchUser(resetRequest.userId, { password }, (err, { rows: user }) => {
+          
+          const data = {
+            password: await argon.hash(password)
+          }
+          
+          patchUser(resetRequest.userId, data, (err, { rows: user }) => {
             if (err) {
               return errorHandler(err, res);
             }
             if (user.length) {
-              // console.log(user.length)
               deletedResetPassword(resetRequest.id, (err, { rows }) => {
                 if (rows.length) {
                   return res.status(200).json({

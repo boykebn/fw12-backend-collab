@@ -1,4 +1,5 @@
 exports.errorHandler = (error, res) => {
+  console.log(error)
   if (error.message.includes(' unique constraint "users_email_unique"')) {
     return res.status(400).json({
       success: false,

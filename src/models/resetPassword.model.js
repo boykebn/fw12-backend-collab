@@ -29,8 +29,8 @@ exports.updateResetPassword = (id, data, cb) => {
     db.query(sql, values, cb);
 };
 
-exports.deletedResetPassword = (data, cb) => {
+exports.deletedResetPassword = (id, cb) => {
     const sql = 'DELETE FROM "resetPassword" WHERE id = $1 RETURNING *';
-    const values = [data.id];
+    const values = [id];
     db.query(sql, values, cb);
 };
