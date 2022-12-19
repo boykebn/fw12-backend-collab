@@ -5,7 +5,7 @@ const {
   insertUser,
   patchUser,
   deleteUser,
-} = require("../models/Users.model");
+} = require("../models/users.model");
 const { errorHandler } = require("../helper/errorHandler.helper");
 
 exports.readAllUsers = (req, res) => {
