@@ -18,13 +18,13 @@ authRouter.post(
   registerEmploye
 );
 authRouter.post(
-  "/register-recruter",
+  "/register-recruiter",
   check("email", "Email invalid").isEmail(),
   check("phoneNumber", "Phone Number invalid").isMobilePhone("id-ID"),
   registerRecruter
 );
 
-authRouter.post('/forgotPassword', forgotPassword);
-authRouter.post('/resetPassword', resetPassword)
+authRouter.post("/forgotPassword", forgotPassword);
+authRouter.post("/resetPassword", resetPassword);
 
 module.exports = authRouter;
