@@ -1,4 +1,11 @@
-const { selectAllUsers, selectEmployesBySkill, selectUser, insertUser, patchUser, deleteUser } = require("../models/Users.model");
+const {
+  selectAllUsers,
+  selectEmployesBySkill,
+  selectUser,
+  insertUser,
+  patchUser,
+  deleteUser,
+} = require("../models/Users.model");
 const { errorHandler } = require("../helper/errorHandler.helper");
 
 exports.readAllUsers = (req, res) => {
@@ -46,9 +53,10 @@ exports.readUsersBySkill = (req, res) => {
 
     pageInfo.totalData = parseInt(result.rows.length);
     pageInfo.totalPage = Math.ceil(pageInfo.totalData / filter.limit);
-    pageInfo.nextPage = req.query.page < pageInfo.totalPage ? req.query.page + 1 : null;
+    pageInfo.nextPage =
+      req.query.page < pageInfo.totalPage ? req.query.page + 1 : null;
     pageInfo.prevPage = req.query.page > 1 ? req.query.page - 1 : null;
-    
+
     return res.status(200).json({
       success: true,
       pageInfo,

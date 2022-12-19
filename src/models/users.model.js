@@ -7,10 +7,10 @@ exports.selectAllUsers = (callback) => {
 };
 
 exports.selectEmployesBySkill = (filter, callback) => {
-  const sql = `SELECT u.name, u.jobDesk, u.address, string_agg(s.name, ', ') FROM users u LEFT JOIN "userSkills" us ON us."userId" = u.id LEFT JOIN skills s ON us."skillId" = s.id WHERE s.name LIKE $1 GROUP BY u.id ORDER BY "${filter.sortBy}" LIMIT $2 OFFSET $3`
+  const sql = `SELECT u.name, u.jobDesk, u.address, string_agg(s.name, ', ') FROM users u LEFT JOIN "userSkills" us ON us."userId" = u.id LEFT JOIN skills s ON us."skillId" = s.id WHERE s.name LIKE $1 GROUP BY u.id ORDER BY "${filter.sortBy}" LIMIT $2 OFFSET $3`;
 
-  const values = [`%${filter.search}%`,  filter.limit, filter.offset]
-}
+  const values = [`%${filter.search}%`, filter.limit, filter.offset];
+};
 
 exports.selectUser = (id, callback) => {
   const sql = `SELECT * FROM users WHERE id=$1`;
@@ -31,7 +31,22 @@ exports.selectUserByEmail = (email, callback) => {
 exports.insertUser = (data, callback) => {
   const sql = `INSERT INTO users ("picture", "name", "phoneNumber", "email", "password", "address", "bio", "jobDesk", "instagram", "linkedin", "github", gitlab", "status", "role") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14)`;
 
-  const values = [data.picture, data.name, data.phoneNumber, data.email, data.password, data.address, data.bio, data.jobDesk, data.instagram, data.linkedin, data.github, data.gitlab, data.status, data.role];
+  const values = [
+    data.picture,
+    data.name,
+    data.phoneNumber,
+    data.email,
+    data.password,
+    data.address,
+    data.bio,
+    data.jobDesk,
+    data.instagram,
+    data.linkedin,
+    data.github,
+    data.gitlab,
+    data.status,
+    data.role,
+  ];
 
   return db.query(sql, values, callback);
 };
@@ -41,7 +56,24 @@ exports.patchUser = (id, data, callback) => {
     "jobDesk"=COALESCE(NULLIF($8, ''), "jobDesk"),"instagram"=COALESCE(NULLIF($9, ''), "instagram"), "linkedin"=COALESCE(NULLIF($10, ''), "linkedin"), "github"=COALESCE(NULLIF($11, ''), "github"), "gitlab"=COALESCE(NULLIF($12, ''), "gitlab"), "status"=COALESCE(NULLIF($13, ''), "status"), "status"=COALESCE(NULLIF($14, ''), "status"), "updatedAt"=$15
     WHERE id=$16 RETURNING *`;
 
-  const values = [data.picture, data.name, data.phoneNumber, data.email, data.password, data.address, data.bio, data.jobDesk, data.instagram, data.linkedin, data.github, data.gitlab, data.status, data.role, new Date(), id];
+  const values = [
+    data.picture,
+    data.name,
+    data.phoneNumber,
+    data.email,
+    data.password,
+    data.address,
+    data.bio,
+    data.jobDesk,
+    data.instagram,
+    data.linkedin,
+    data.github,
+    data.gitlab,
+    data.status,
+    data.role,
+    new Date(),
+    id,
+  ];
 
   return db.query(sql, values, callback);
 };
@@ -57,7 +89,13 @@ exports.deleteUser = (id, callback) => {
 exports.insertRegisterEmploye = (data, callback) => {
   const sql = `INSERT INTO users ("name", "phoneNumber", "email", "password", "role") VALUES ($1, $2, $3, $4, $5)  RETURNING *`;
 
-  const values = [data.name, data.phoneNumber, data.email, data.password, "EMPLOYE"];
+  const values = [
+    data.name,
+    data.phoneNumber,
+    data.email,
+    data.password,
+    "EMPLOYE",
+  ];
 
   return db.query(sql, values, callback);
 };
@@ -76,11 +114,20 @@ exports.insertRegisterRecruter = async (data, callback) => {
 
     const sqlUser = `INSERT INTO users ("name", "phoneNumber", "email", "password", "role") VALUES ($1, $2, $3, $4, $5)  RETURNING *`;
 
-    const userQuery = await db.query(sqlUser, [dataBody.name, dataBody.phoneNumber, dataBody.email, dataBody.password, "RECRUTER"]);
+    const userQuery = await db.query(sqlUser, [
+      dataBody.name,
+      dataBody.phoneNumber,
+      dataBody.email,
+      dataBody.password,
+      "RECRUITER",
+    ]);
 
     const sqlCompany = `INSERT INTO company ("name","field","userId") VALUES ($1,$2,currval(pg_get_serial_sequence('users','id'))) RETURNING *`;
 
-    const companyQuery = await db.query(sqlCompany, [dataBody.company, dataBody.field]);
+    const companyQuery = await db.query(sqlCompany, [
+      dataBody.company,
+      dataBody.field,
+    ]);
 
     await db.query("COMMIT");
 

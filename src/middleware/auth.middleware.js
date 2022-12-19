@@ -8,19 +8,18 @@ const authMiddleware = (req, res, next) => {
     try {
       const payload = jwt.verify(token, "backend-secret");
       req.userData = payload;
-      next;
+      next();
     } catch (err) {
       return res.status(401).json({
         success: false,
         message: err.message,
       });
     }
-  }
-  else{
+  } else {
     return res.status(401).json({
-        success: true, 
-        message: 'Unauthorized'
-    })
+      success: true,
+      message: "Unauthorized",
+    });
   }
 };
 
