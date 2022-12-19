@@ -1,18 +1,9 @@
-const {
-  selectUserByEmail,
-  insertRegisterEmploye,
-  insertRegisterRecruter,
-  patchUser,
-} = require("../models/users.model");
+const { selectUserByEmail, insertRegisterEmploye, insertRegisterRecruter, patchUser } = require("../models/users.model");
 const jwt = require("jsonwebtoken");
 const argon = require("argon2");
 const { errorHandler } = require("../helper/errorHandler.helper");
 const { validationResult } = require("express-validator");
-const {
-  insertResetPassword,
-  selectResetPasswordByEmailAndCode,
-  deletedResetPassword,
-} = require("../models/resetPassword.model");
+const { insertResetPassword, selectResetPasswordByEmailAndCode, deletedResetPassword } = require("../models/resetPassword.model");
 
 exports.login = (req, res) => {
   selectUserByEmail(req.body.email, async (err, { rows }) => {
@@ -62,10 +53,7 @@ exports.registerEmploye = async (req, res) => {
         return errorHandler(error, res);
       } else {
         const [user] = data.rows;
-        const token = jwt.sign(
-          { id: user.id, role: user.role },
-          "backend-secret"
-        );
+        const token = jwt.sign({ id: user.id, role: user.role }, "backend-secret");
 
         return res.status(200).json({
           success: true,
@@ -105,10 +93,7 @@ exports.registerRecruter = async (req, res) => {
       } else {
         const [user] = data.userQuery.rows;
         const [company] = data.companyQuery.rows;
-        const token = jwt.sign(
-          { id: user.id, companyId: company.id, role: user.role },
-          "backend-secret"
-        );
+        const token = jwt.sign({ id: user.id, companyId: company.id, role: user.role }, "backend-secret");
 
         return res.status(200).json({
           success: true,
@@ -139,8 +124,8 @@ exports.forgotPassword = (req, res) => {
         userId: users.id,
         code: Math.ceil(Math.random() * 90000),
       };
-      insertResetPassword(data, (err, results) => {
-        if (results.rows.length) {
+      insertResetPassword(data, (err, { rows: results }) => {
+        if (results.length) {
           return res.status(200).json({
             success: true,
             message: "Reset Password has been requested",
@@ -160,7 +145,7 @@ exports.forgotPassword = (req, res) => {
 exports.resetPassword = (req, res) => {
   const { password, confirmPassword } = req.body;
   if (password === confirmPassword) {
-    selectResetPasswordByEmailAndCode(req.body, (err, { rows: user }) => {
+    selectResetPasswordByEmailAndCode(req.body, async (err, { rows: user }) => {
       if (err) {
         return errorHandler(err, res);
       }
@@ -168,32 +153,26 @@ exports.resetPassword = (req, res) => {
         if (user.length) {
           // console.log(user)
           const [resetRequest] = user;
-          if (
-            new Date(resetRequest.createdAt).getTime() + 15 * 60 * 1000 <
-            new Date().getTime()
-          ) {
+          if (new Date(resetRequest.createdAt).getTime() + 15 * 60 * 1000 < new Date().getTime()) {
             throw Error("backend error: code_expired");
           }
-          patchUser(
-            resetRequest.userId,
-            { password },
-            (err, { rows: user }) => {
-              if (err) {
-                return errorHandler(err, res);
-              }
-              if (user.length) {
-                // console.log(user.length)
-                deletedResetPassword(resetRequest.id, (err, { rows }) => {
-                  if (rows.length) {
-                    return res.status(200).json({
-                      success: true,
-                      message: "Password succes updated, please relogin",
-                    });
-                  }
-                });
-              }
+          const password = await argon.hash(password)
+          patchUser(resetRequest.userId, { password }, (err, { rows: user }) => {
+            if (err) {
+              return errorHandler(err, res);
             }
-          );
+            if (user.length) {
+              // console.log(user.length)
+              deletedResetPassword(resetRequest.id, (err, { rows }) => {
+                if (rows.length) {
+                  return res.status(200).json({
+                    success: true,
+                    message: "Password succes updated, please relogin",
+                  });
+                }
+              });
+            }
+          });
         } else {
           throw Error("backend error: notfound_code_request");
         }
