@@ -3,8 +3,8 @@ const {readAllUsers, readUser, readUsersBySkill, readCompanyByUserId, updateUser
 
 userRouter.get('/', readAllUsers)
 userRouter.get('/skill', readUsersBySkill)
-userRouter.get('/:id', readUser)
 userRouter.get('/company/:id', readCompanyByUserId)
+userRouter.get('/:id', readUser)
 userRouter.post('/', createUser)
 userRouter.patch('/:id', updateUser)
 userRouter.delete('/:id', deleteUser)
