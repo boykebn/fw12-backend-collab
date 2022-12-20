@@ -5,7 +5,7 @@ const {
 } = require("../models/profile.model");
 
 exports.readProfile = (req, res) => {
-  selectProfile(req.userData.id, (err, data) => {
+  selectProfile(req.params.id, (err, data) => {
     if (data.rows.length === 0) {
       return res.status(400).json({
         success: false,
@@ -22,7 +22,7 @@ exports.readProfile = (req, res) => {
 };
 
 exports.readExperience = (req, res) => {
-  selectExperienceProfile(req.userData.id, (err, data) => {
+  selectExperienceProfile(req.params.id, (err, data) => {
     if (err) {
       console.log(err);
     }
@@ -43,7 +43,7 @@ exports.readExperience = (req, res) => {
 };
 
 exports.readPortofolio = (req, res) => {
-  selectPortofolioProfile(req.userData.id, (err, data) => {
+  selectPortofolioProfile(req.params.id, (err, data) => {
     if (err) {
       console.log(err);
     }
