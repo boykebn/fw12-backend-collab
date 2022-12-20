@@ -37,7 +37,7 @@ exports.readExperience = (req, res) => {
     return res.status(200).json({
       success: true,
       message: "List of experience",
-      results: data.rows,
+      results: data.rows[0],
     });
   });
 };
@@ -58,7 +58,7 @@ exports.readPortofolio = (req, res) => {
     return res.status(200).json({
       success: true,
       message: "List of portofolio",
-      results: data.rows,
+      results: data.rows[0],
     });
   });
 };
