@@ -7,9 +7,11 @@ exports.selectAllUsers = (callback) => {
 };
 
 exports.selectEmployesBySkill = (filter, callback) => {
-  const sql = `SELECT u.name, u.jobDesk, u.address, string_agg(s.name, ', ') FROM users u LEFT JOIN "userSkills" us ON us."userId" = u.id LEFT JOIN skills s ON us."skillId" = s.id WHERE s.name LIKE $1 AND u.role="EMPLOYE" GROUP BY u.id ORDER BY "${filter.sortBy}" LIMIT $2 OFFSET $3`;
+  const sql = ` SELECT u.id, u.name, u."jobDesk", u.address, array_agg(s.name) as skills FROM users u JOIN "userSkills" us ON us."userId" = u.id JOIN skills s ON us."skillId" = s.id WHERE s.name LIKE $1 AND u.role='EMPLOYE' GROUP BY u.id, u.name, u."jobDesk", u.address ORDER BY "${filter.sortBy}" LIMIT $2 OFFSET $3`;
 
   const values = [`%${filter.search}%`, filter.limit, filter.offset];
+
+  return db.query(sql, values, callback)
 };
 
 exports.selectUser = (id, callback) => {

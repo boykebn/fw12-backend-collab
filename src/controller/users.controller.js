@@ -61,7 +61,7 @@ exports.readUsersBySkill = (req, res) => {
     return res.status(200).json({
       success: true,
       pageInfo,
-      results: data.rows,
+      results: result.rows,
     });
   });
 };
