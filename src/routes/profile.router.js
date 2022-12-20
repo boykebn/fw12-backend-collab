@@ -7,7 +7,7 @@ const {
 } = require("../controller/profile.controller");
 
 profile.get("/:id", readProfile);
-profile.get("/experiences", readExperience);
-profile.get("/portofolio", readPortofolio);
+profile.get("/experiences/:id", readExperience);
+profile.get("/portofolio/:id", readPortofolio);
 
 module.exports = profile;
