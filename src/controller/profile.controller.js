@@ -5,7 +5,6 @@ const {
 } = require("../models/profile.model");
 
 exports.readProfile = (req, res) => {
-  console.log(req.userData.id);
   selectProfile(req.userData.id, (err, data) => {
     if (data.rows.length === 0) {
       return res.status(400).json({
@@ -17,7 +16,7 @@ exports.readProfile = (req, res) => {
     return res.status(200).json({
       success: true,
       message: "Get profile user",
-      results: data.rows,
+      results: data.rows[0],
     });
   });
 };
