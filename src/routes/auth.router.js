@@ -2,14 +2,16 @@ const authRouter = require("express").Router();
 const { check } = require("express-validator");
 
 const {
-  login,
   registerEmploye,
   registerRecruter,
   forgotPassword,
   resetPassword,
+  loginEmploye,
+  loginRecruiter,
 } = require("../controller/auth.controller");
 
-authRouter.post("/login", login);
+authRouter.post("/login-employe", loginEmploye);
+authRouter.post("/login-recruiter", loginRecruiter);
 
 authRouter.post(
   "/register-employe",
