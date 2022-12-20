@@ -18,8 +18,8 @@ exports.selectResetPasswordByEmailAndCode = (data, cb) => {
 };
 
 exports.insertResetPassword = (data, cb) => {
-    const sql = 'INSERT INTO "resetPassword" ("code", "userId") VALUES ($1, $2) RETURNING *';
-    const value = [data.code, data.userId];
+    const sql = 'INSERT INTO "resetPassword" ("email", "code", "userId") VALUES ($1, $2, $3) RETURNING *';
+    const value = [data.email, data.code, data.userId];
     db.query(sql, value, cb);
 };
 
@@ -29,8 +29,8 @@ exports.updateResetPassword = (id, data, cb) => {
     db.query(sql, values, cb);
 };
 
-exports.deletedResetPassword = (data, cb) => {
+exports.deletedResetPassword = (id, cb) => {
     const sql = 'DELETE FROM "resetPassword" WHERE id = $1 RETURNING *';
-    const values = [data.id];
+    const values = [id];
     db.query(sql, values, cb);
 };

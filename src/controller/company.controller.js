@@ -41,6 +41,8 @@ exports.readCompany = (req, res) => {
   });
 };
 
+
+
 exports.createCompany = (req, res) => {
   insertCompany(req.body, (err, data) => {
     if (err) {
