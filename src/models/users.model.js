@@ -29,7 +29,7 @@ exports.selectUserByEmail = (email, callback) => {
 };
 
 exports.selectCompanyByUserId = (id, callback) => {
-  const sql = `SELECT u.picture, c.* FROM users u LEFT JOIN company c ON u.id = c.userId WHERE u.id = $1`
+  const sql = `SELECT u.picture, c.* FROM users u LEFT JOIN company c ON u.id = c."userId" WHERE u.id = $1`
 
   const values = [id]
 
