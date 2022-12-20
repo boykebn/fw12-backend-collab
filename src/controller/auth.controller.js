@@ -139,8 +139,8 @@ exports.forgotPassword = (req, res) => {
         userId: users.id,
         codeUnique: Math.ceil(Math.random() * 90000),
       };
-      insertResetPassword(data, (err, results) => {
-        if (results.rows.length) {
+      insertResetPassword(data, (err, { rows: results }) => {
+        if (results.length) {
           return res.status(200).json({
             success: true,
             message: "Reset Password has been requested",
