@@ -14,6 +14,7 @@ exports.selectProfile = (id, cb) => {
     u.gitlab,
     u.status,
     u.linkedin,
+    u.role,
     string_to_array(string_agg(s.name, ', '), ', ') AS skills
     FROM users u 
     JOIN "userSkills" us ON us."userId" = u.id
