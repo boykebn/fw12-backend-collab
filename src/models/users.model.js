@@ -28,6 +28,14 @@ exports.selectUserByEmail = (email, callback) => {
   return db.query(sql, values, callback);
 };
 
+exports.selectCompanyByUserId = (id, callback) => {
+  const sql = `SELECT u.picture, c.* FROM users u LEFT JOIN company c ON u.id = c.userId WHERE u.id = $1`
+
+  const values = [id]
+
+  return db.query(sql, values, callback)
+}
+
 exports.insertUser = (data, callback) => {
   const sql = `INSERT INTO users ("picture", "name", "phoneNumber", "email", "password", "address", "bio", "jobDesk", "instagram", "linkedin", "github", gitlab", "status", "role") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14)`;
 

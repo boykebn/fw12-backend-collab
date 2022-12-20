@@ -5,6 +5,7 @@ const {
   insertUser,
   patchUser,
   deleteUser,
+  selectCompanyByUserId
 } = require("../models/users.model");
 const { errorHandler } = require("../helper/errorHandler.helper");
 
@@ -81,6 +82,27 @@ exports.readUser = (req, res) => {
     return res.status(200).json({
       success: true,
       results: result.rows[0],
+    });
+  });
+};
+
+exports.readCompanyByUserId = (req, res) => {
+  selectCompanyByUserId(req.params.id, (err, data) => {
+    if (err) {
+      console.log(err);
+    }
+
+    if (data.rows.length === 0) {
+      return res.status(400).json({
+        success: false,
+        message: "Company not found",
+      });
+    }
+
+    return res.status(200).json({
+      success: true,
+      message: "List of company",
+      results: data.rows[0],
     });
   });
 };
