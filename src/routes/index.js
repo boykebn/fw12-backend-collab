@@ -12,6 +12,6 @@ routes.use("/contacts", require("./contacts.router"));
 routes.use("/experiences", require("./experiences.router"));
 routes.use("/auth", require("./auth.router"));
 
-routes.use("/profile", authMiddleware, require("./profile.router"));
+routes.use("/profile", require("./profile.router"));
 
 module.exports = routes;
