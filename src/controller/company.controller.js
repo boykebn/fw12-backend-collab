@@ -58,6 +58,7 @@ exports.createCompany = (req, res) => {
 
 exports.updateCompany = (req, res) => {
   patchCompany(req.params.id, req.body, (err, data) => {
+    console.log(req.body)
     if (err) {
       console.log(err);
     }
@@ -71,8 +72,8 @@ exports.updateCompany = (req, res) => {
 
     return res.status(200).json({
       success: true,
-      message: "Company Updated",
-      results: data.rows,
+      message: "Company Profile Updated",
+      results: data.rows[0],
     });
   });
 };
