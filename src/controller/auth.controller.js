@@ -1,4 +1,4 @@
-const { selectUserByEmail, insertRegisterEmploye, insertRegisterRecruter, patchUser, } = require("../models/users.model");
+const { selectUserByEmail, insertRegisterEmploye, insertRegisterRecruter, patchUser } = require("../models/users.model");
 const jwt = require("jsonwebtoken");
 const argon = require("argon2");
 const { errorHandler } = require("../helper/errorHandler.helper");
@@ -16,9 +16,9 @@ exports.login = (req, res) => {
           message: "login success",
           results: {
             token,
-            role: user.role
+            role: user.role,
           },
-        })
+        });
       } else {
         return res.status(401).json({
           success: false,
@@ -61,6 +61,7 @@ exports.registerEmploye = async (req, res) => {
           message: "Register Success",
           results: {
             token,
+            role: user.role,
           },
         });
       }
@@ -99,7 +100,7 @@ exports.registerRecruter = async (req, res) => {
         return res.status(200).json({
           success: true,
           message: "Register Success",
-          results: { token },
+          results: { token, role: user.role },
         });
       }
     });
@@ -157,11 +158,11 @@ exports.resetPassword = (req, res) => {
           if (new Date(resetRequest.createdAt).getTime() + 15 * 60 * 1000 < new Date().getTime()) {
             throw Error("backend error: code_expired");
           }
-          
+
           const data = {
-            password: await argon.hash(password)
-          }
-          
+            password: await argon.hash(password),
+          };
+
           patchUser(resetRequest.userId, data, (err, { rows: user }) => {
             if (err) {
               return errorHandler(err, res);

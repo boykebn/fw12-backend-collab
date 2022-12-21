@@ -6,8 +6,7 @@ const {
   registerRecruter,
   forgotPassword,
   resetPassword,
-  loginEmploye,
-  loginRecruiter,
+ 
   login,
 } = require("../controller/auth.controller");
 
