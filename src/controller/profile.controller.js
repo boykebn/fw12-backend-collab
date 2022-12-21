@@ -121,7 +121,7 @@ exports.readSkillsByToken = (req, res) => {
     return res.status(200).json({
       success: true,
       message: `Get skill by users login`,
-      result: result.rows,
+      results: result.rows,
     });
   });
 };
