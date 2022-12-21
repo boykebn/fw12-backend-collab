@@ -1,3 +1,4 @@
+const { errorHandler } = require("../helper/errorHandler.helper");
 const {
   selectProfile,
   selectExperienceProfile,
@@ -7,7 +8,14 @@ const {
 } = require("../models/profile.model");
 const { selectSkill } = require("../models/skills.model");
 
-const { selectUser, patchUserByToken } = require("../models/users.model");
+const fs = require("fs");
+const fm = require("fs-extra");
+
+const {
+  selectUser,
+  patchUserByToken,
+  patchUser,
+} = require("../models/users.model");
 
 exports.readProfile = (req, res) => {
   selectProfile(req.params.id, (err, data) => {
@@ -122,6 +130,51 @@ exports.readSkillsByToken = (req, res) => {
       success: true,
       message: `Get skill by users login`,
       results: result.rows,
+    });
+  });
+};
+
+exports.updateProfilePicture = (req, res) => {
+  if (req.file) {
+    req.body.picture = req.file.filename;
+    selectUser(req.userData.id, (error, results) => {
+      if (error) {
+        return errorHandler(error, res);
+      }
+      if (results.rows.length) {
+        const [user] = results.rows;
+        fm.ensureFile(
+          require("path").join(process.cwd(), "assets/uploads", user.picture),
+          (error) => {
+            if (error) {
+              return errorHandler(error, res);
+            }
+            fs.rm(
+              require("path").join(
+                process.cwd(),
+                "assets/uploads",
+                user.picture
+              ),
+              (error) => {
+                if (error) {
+                  return errorHandler(error, res);
+                }
+              }
+            );
+          }
+        );
+      }
+    });
+  }
+
+  patchUser(req.userData.id, req.body, (error, results) => {
+    if (error) {
+      return errorHandler(error, res);
+    }
+    return res.status(200).json({
+      success: true,
+      message: "Profile updated",
+      results: results.rows[0],
     });
   });
 };
