@@ -5,61 +5,20 @@ const { errorHandler } = require("../helper/errorHandler.helper");
 const { validationResult } = require("express-validator");
 const { insertResetPassword, selectResetPasswordByEmailAndCode, deletedResetPassword } = require("../models/resetPassword.model");
 
-exports.loginEmploye = (req, res) => {
+exports.login = (req, res) => {
   selectUserByEmail(req.body.email, async (err, { rows }) => {
     if (rows.length) {
       const [user] = rows;
       if (await argon.verify(user.password, req.body.password)) {
-        if(req.body.role === 'EMPLOYE'){
         const token = jwt.sign({ id: user.id }, "backend-secret");
         return res.status(200).json({
           success: true,
           message: "login success",
           results: {
             token,
+            role: user.role
           },
-        })}
-        else {
-          return res.status(401).json({
-            success: false,
-            message: "Wrong role",
-          });
-        }
-      } else {
-        return res.status(401).json({
-          success: false,
-          message: "Wrong email or password",
-        });
-      }
-    } else {
-      return res.status(401).json({
-        success: false,
-        message: "Wrong email or password",
-      });
-    }
-  });
-};
-
-exports.loginRecruiter = (req, res) => {
-  selectUserByEmail(req.body.email, async (err, { rows }) => {
-    if (rows.length) {
-      const [user] = rows;
-      if (await argon.verify(user.password, req.body.password)) {
-        if(req.body.role === 'RECRUITER'){
-          const token = jwt.sign({ id: user.id }, "backend-secret");
-          return res.status(200).json({
-            success: true,
-            message: "login success",
-            results: {
-              token,
-            },
-          })}
-          else {
-            return res.status(401).json({
-              success: false,
-              message: "Wrong role",
-            });
-          }
+        })
       } else {
         return res.status(401).json({
           success: false,

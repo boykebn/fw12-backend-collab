@@ -8,10 +8,10 @@ const {
   resetPassword,
   loginEmploye,
   loginRecruiter,
+  login,
 } = require("../controller/auth.controller");
 
-authRouter.post("/login-employe", loginEmploye);
-authRouter.post("/login-recruiter", loginRecruiter);
+authRouter.post("/login", login);
 
 authRouter.post(
   "/register-employe",
