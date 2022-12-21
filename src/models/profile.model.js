@@ -69,3 +69,11 @@ exports.updateSkills = async (id, data, callback) => {
     callback(error, null);
   }
 };
+
+exports.selectSkillsByToken = (id, callback) => {
+  const sql = `SELECT s.name FROM skills s JOIN "userSkills" us ON us.id = s.id WHERE us."userId"=$1`;
+
+  const values = [id];
+
+  return db.query(sql, values, callback);
+};

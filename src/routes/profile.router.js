@@ -6,6 +6,7 @@ const {
   readPortofolio,
   readProfileByToken,
   updateEmploye,
+  readSkillsByToken,
 } = require("../controller/profile.controller");
 
 const authMiddleware = require("../middleware/auth.middleware");
@@ -14,6 +15,7 @@ const { updateSkills } = require("../controller/profile.controller");
 profile.get("/myAccount", authMiddleware, readProfileByToken);
 profile.get("/experiences/:id", readExperience);
 profile.get("/portofolio/:id", readPortofolio);
+profile.get("/skills", authMiddleware, readSkillsByToken);
 profile.get("/:id", readProfile);
 profile.patch("/", authMiddleware, updateEmploye);
 profile.post("/skills", authMiddleware, updateSkills);

@@ -1,39 +1,39 @@
-const db = require('../helper/db.helper')
+const db = require("../helper/db.helper");
 
 exports.selectAllSkills = (callback) => {
-    const sql = `SELECT * FROM skills`
+  const sql = `SELECT * FROM skills`;
 
-    return db.query(sql, callback)
-}
+  return db.query(sql, callback);
+};
 
 exports.selectSkill = (id, callback) => {
-    const sql = `SELECT * FROM skills WHERE id=$1`
+  const sql = `SELECT * FROM skills WHERE id=$1`;
 
-    const values = [id]
+  const values = [id];
 
-    return db.query(sql, values, callback)
-}
+  return db.query(sql, values, callback);
+};
 
 exports.insertSkill = (data, callback) => {
-    const sql = `INSERT INTO skills ("name") VALUES ($1) RETURNING *`
+  const sql = `INSERT INTO skills ("name") VALUES ($1) RETURNING *`;
 
-    const values = [data.name]
+  const values = [data.name];
 
-    return db.query(sql, values, callback)
-}
+  return db.query(sql, values, callback);
+};
 
 exports.patchSkill = (id, data, callback) => {
-    const sql = `UPDATE skills SET "name"=COALESCE(NULLIF($1, ''), "name"), "updatedAt"=$2 WHERE id=$3 RETURNING *`
+  const sql = `UPDATE skills SET "name"=COALESCE(NULLIF($1, ''), "name"), "updatedAt"=$2 WHERE id=$3 RETURNING *`;
 
-    const values = [data.name, new Date(),id]
+  const values = [data.name, new Date(), id];
 
-    return db.query(sql, values, callback)
-}
+  return db.query(sql, values, callback);
+};
 
 exports.deleteSkill = (id, callback) => {
-    const sql = `DELETE FROM skills WHERE id=$1 RETURNING *`
+  const sql = `DELETE FROM skills WHERE id=$1 RETURNING *`;
 
-    const values = [id]
+  const values = [id];
 
-    return db.query(sql, values, callback)
-}
+  return db.query(sql, values, callback);
+};

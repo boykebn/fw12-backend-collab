@@ -3,7 +3,9 @@ const {
   selectExperienceProfile,
   selectPortofolioProfile,
   updateSkills,
+  selectSkillsByToken,
 } = require("../models/profile.model");
+const { selectSkill } = require("../models/skills.model");
 
 const { selectUser, patchUserByToken } = require("../models/users.model");
 
@@ -106,6 +108,20 @@ exports.updateSkills = (req, res) => {
     return res.status(200).json({
       success: true,
       message: `Skill updated`,
+    });
+  });
+};
+
+exports.readSkillsByToken = (req, res) => {
+  selectSkillsByToken(req.userData.id, (err, result) => {
+    if (err) {
+      console.log(err);
+    }
+
+    return res.status(200).json({
+      success: true,
+      message: `Get skill by users login`,
+      result: result.rows,
     });
   });
 };
