@@ -9,7 +9,7 @@ exports.readProfile = (req, res) => {
     if (data.rows.length === 0) {
       return res.status(400).json({
         success: false,
-        message: "Profile not found",
+        message: "Profile by id not found",
       });
     }
 
@@ -27,7 +27,7 @@ exports.readProfileByToken = (req, res) => {
     if (data.rows.length === 0) {
       return res.status(400).json({
         success: false,
-        message: "Profile not found",
+        message: "Profile by token not found",
       });
     }
 
