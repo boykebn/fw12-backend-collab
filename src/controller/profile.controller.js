@@ -4,7 +4,7 @@ const {
   selectPortofolioProfile,
 } = require("../models/profile.model");
 
-const { selectUser } = require("../models/users.model");
+const { selectUser, patchUserByToken } = require("../models/users.model");
 
 exports.readProfile = (req, res) => {
   selectProfile(req.params.id, (err, data) => {
@@ -78,6 +78,27 @@ exports.readPortofolio = (req, res) => {
       success: true,
       message: "List of portofolio",
       results: data.rows,
+    });
+  });
+};
+
+exports.updateEmploye = (req, res) => {
+  patchUserByToken(req.userData.id, req.body, (err, result) => {
+    if (err) {
+      console.log(err);
+    }
+
+    if (result.rows.length === 0) {
+      return res.status(200).json({
+        success: false,
+        message: `User doesn't exist`,
+      });
+    }
+
+    return res.status(200).json({
+      success: true,
+      message: `User updated`,
+      results: result.rows[0],
     });
   });
 };
