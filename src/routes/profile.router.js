@@ -12,6 +12,6 @@ const authMiddleware = require("../middleware/auth.middleware");
 profile.get("/myAccount", authMiddleware, readProfileByToken);
 profile.get("/experiences/:id", readExperience);
 profile.get("/portofolio/:id", readPortofolio);
-profile.get("/:id", readProfile);
+profile.get("/", authMiddleware, readProfile);
 
 module.exports = profile;
