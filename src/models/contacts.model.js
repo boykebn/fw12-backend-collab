@@ -15,9 +15,9 @@ exports.selectContact = (id, callback) => {
 };
 
 exports.insertContact = (data, callback) => {
-  const sql = `INSERT INTO contact ("userId","message","file") VALUES ($1,$2,$3) RETURNING *`;
+  const sql = `INSERT INTO contact ("userId","purposeId", "message","file") VALUES ($1,$2,$3,$4) RETURNING *`;
 
-  const values = [data.userId, data.message, data.file];
+  const values = [data.userId, data.purposeId, data.message, data.file];
 
   return db.query(sql, values, callback);
 };
@@ -25,12 +25,13 @@ exports.insertContact = (data, callback) => {
 exports.patchContact = (id, data, callback) => {
   const sql = `UPDATE contact SET 
   "userId"=COALESCE(NULLIF($1, '')::INTEGER, "userId"),
-  "message"=COALESCE(NULLIF($2, ''), "message"), 
-  "file"=COALESCE(NULLIF($3, ''), "file"),
-  "updatedAt"= $4
+  "purposeId"=COALESCE(NULLIF($2, '')::INTEGER, "purposeId"),
+  "message"=COALESCE(NULLIF($3, ''), "message"), 
+  "file"=COALESCE(NULLIF($4, ''), "file"),
+  "updatedAt"= $5
   WHERE id=$5 RETURNING *`;
 
-  const values = [data.userId, data.message, data.file, new Date(), id];
+  const values = [data.userId, data.purposeId, data.message, data.file, new Date(), id];
 
   return db.query(sql, values, callback);
 };
