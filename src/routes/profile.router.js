@@ -9,11 +9,13 @@ const {
 } = require("../controller/profile.controller");
 
 const authMiddleware = require("../middleware/auth.middleware");
+const { updateSkills } = require("../models/profile.model");
 
 profile.get("/myAccount", authMiddleware, readProfileByToken);
 profile.get("/experiences/:id", readExperience);
 profile.get("/portofolio/:id", readPortofolio);
 profile.get("/:id", readProfile);
 profile.patch("/", authMiddleware, updateEmploye);
+profile.post("/skills", authMiddleware, updateSkills);
 
 module.exports = profile;

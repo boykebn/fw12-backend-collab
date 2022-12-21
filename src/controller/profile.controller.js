@@ -2,6 +2,7 @@ const {
   selectProfile,
   selectExperienceProfile,
   selectPortofolioProfile,
+  updateSkills,
 } = require("../models/profile.model");
 
 const { selectUser, patchUserByToken } = require("../models/users.model");
@@ -88,17 +89,24 @@ exports.updateEmploye = (req, res) => {
       console.log(err);
     }
 
-    if (result.rows.length === 0) {
-      return res.status(200).json({
-        success: false,
-        message: `User doesn't exist`,
-      });
-    }
-
     return res.status(200).json({
       success: true,
       message: `User updated`,
       results: result.rows[0],
+    });
+  });
+};
+
+exports.updateSkills = (req, res) => {
+  updateSkills(req.userData.id, req.body, (err, result) => {
+    if (err) {
+      console.log(err);
+    }
+
+    return res.status(200).json({
+      success: true,
+      message: `Skill updated`,
+      results: result.rows,
     });
   });
 };

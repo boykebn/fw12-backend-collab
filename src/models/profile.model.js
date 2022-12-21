@@ -41,3 +41,31 @@ exports.selectPortofolioProfile = (id, callback) => {
 
   return db.query(sql, values, callback);
 };
+
+exports.updateSkills = async (id, data, callback) => {
+  const dataBody = {
+    name: data.name,
+  };
+  try {
+    await db.query("BEGIN");
+
+    const sqlSkills = `INSERT INTO skills ("name") VALUES ($1) RETURNING *`;
+
+    const skillsQuery = await db.query(sqlSkills, [dataBody.name]);
+
+    const sqlUserSkills = `INSERT INTO "userSkills" ("userId", "skillId") VALUES ($1, currval(pg_get_serial_sequence('skills','id'))) RETURNING *`;
+
+    const userSkillsQuery = await db.query(sqlUserSkills, [id]);
+
+    await db.query("COMMIT");
+
+    const results = {
+      skillsQuery,
+      userSkillsQuery,
+    };
+
+    callback(null, results);
+  } catch (error) {
+    callback(error, null);
+  }
+};
