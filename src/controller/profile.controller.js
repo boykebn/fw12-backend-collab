@@ -106,7 +106,6 @@ exports.updateSkills = (req, res) => {
     return res.status(200).json({
       success: true,
       message: `Skill updated`,
-      results: result.rows,
     });
   });
 };
