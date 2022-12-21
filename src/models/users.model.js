@@ -6,6 +6,14 @@ exports.selectAllUsers = (callback) => {
   return db.query(sql, callback);
 };
 
+exports.countAllEmployeBySkill = (filter, callback) => {
+  const sql = `SELECT COUNT(DISTINCT(us."userId")) AS "totalData" FROM users u JOIN "userSkills" us ON us."userId" = u.id JOIN skills s ON us."skillId" = s.id WHERE s.name LIKE $1 AND u.role='EMPLOYE'`;
+
+  const values = [`%${filter.search}%`];
+
+  return db.query(sql, values, callback);
+};
+
 exports.selectEmployesBySkill = (filter, callback) => {
   const sql = ` SELECT u.id, u.name, u."jobDesk", u.address, array_agg(s.name) as skills FROM users u JOIN "userSkills" us ON us."userId" = u.id JOIN skills s ON us."skillId" = s.id WHERE s.name LIKE $1 AND u.role='EMPLOYE' GROUP BY u.id, u.name, u."jobDesk", u.address ORDER BY "${filter.sortBy}" LIMIT $2 OFFSET $3`;
 
