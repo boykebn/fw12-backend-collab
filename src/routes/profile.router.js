@@ -9,7 +9,7 @@ const {
 } = require("../controller/profile.controller");
 
 const authMiddleware = require("../middleware/auth.middleware");
-const { updateSkills } = require("../models/profile.model");
+const { updateSkills } = require("../controller/profile.controller");
 
 profile.get("/myAccount", authMiddleware, readProfileByToken);
 profile.get("/experiences/:id", readExperience);
