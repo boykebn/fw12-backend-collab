@@ -5,7 +5,8 @@ const {
   insertUser,
   patchUser,
   deleteUser,
-  selectCompanyByUserId
+  selectCompanyByUserId,
+  countAllEmployeBySkill
 } = require("../models/users.model");
 const { errorHandler } = require("../helper/errorHandler.helper");
 
@@ -40,29 +41,36 @@ exports.readUsersBySkill = (req, res) => {
     page: req.query.page,
   };
 
-  selectEmployesBySkill(filter, (err, result) => {
-    if (err) {
-      return errorHandler(err, res);
+  countAllEmployeBySkill(filter, (err, data) => {
+    if(err){
+      return errorHandler(err,res)
     }
 
-    if (result.rows.length === 0) {
-      return res.status(400).json({
-        success: false,
-        message: "Movie not found",
+    
+    selectEmployesBySkill(filter, (err, result) => {
+      if (err) {
+        return errorHandler(err, res);
+      }
+      
+      if (result.rows.length === 0) {
+        return res.status(400).json({
+          success: false,
+          message: "Movie not found",
+        });
+      }
+
+      pageInfo.totalData = parseInt(data.rows[0].totalData);
+      pageInfo.totalPage = Math.ceil(pageInfo.totalData / filter.limit);
+      pageInfo.nextPage =
+        req.query.page < pageInfo.totalPage ? req.query.page + 1 : null;
+      pageInfo.prevPage = req.query.page > 1 ? req.query.page - 1 : null;
+      
+      return res.status(200).json({
+        success: true,
+        pageInfo,
+        results: result.rows,
       });
-    }
-
-    pageInfo.totalData = parseInt(result.rows.length);
-    pageInfo.totalPage = Math.ceil(pageInfo.totalData / filter.limit);
-    pageInfo.nextPage =
-      req.query.page < pageInfo.totalPage ? req.query.page + 1 : null;
-    pageInfo.prevPage = req.query.page > 1 ? req.query.page - 1 : null;
-
-    return res.status(200).json({
-      success: true,
-      pageInfo,
-      results: result.rows,
-    });
+  })
   });
 };
 
