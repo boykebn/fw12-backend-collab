@@ -5,7 +5,6 @@ const {
 } = require("../models/profile.model");
 
 exports.readProfile = (req, res) => {
-  console.log(req.userData);
   selectProfile(req.params.id, (err, data) => {
     if (data.rows.length === 0) {
       return res.status(400).json({
@@ -23,6 +22,7 @@ exports.readProfile = (req, res) => {
 };
 
 exports.readProfileByToken = (req, res) => {
+  console.log(req.userData);
   selectProfile(req.userData.id, (err, data) => {
     if (data.rows.length === 0) {
       return res.status(400).json({
