@@ -29,14 +29,14 @@ exports.readUsersBySkill = (req, res) => {
   req.query.limit = parseInt(req.query.limit) || 4;
   req.query.search = req.query.search || "";
   req.query.sortBy = req.query.sortBy || "id";
-  req.body.status = req.body.status || ""
+  req.query.status = req.query.status || ""
 
   const filter = {
     limit: req.query.limit,
     offset: parseInt(req.query.page - 1) * req.query.limit,
     search: req.query.search,
     sortBy: req.query.sortBy,
-    status: req.body.status
+    status: req.query.status
   };
 
   const pageInfo = {

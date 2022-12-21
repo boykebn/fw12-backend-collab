@@ -6,11 +6,16 @@ require("dotenv").config({
 });
 
 const app = express();
-const port = process.env.PORT || 8888 ;
+const port = process.env.PORT || 8888;
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cors());
+
+app.use(
+  "/assets/uploads",
+  express.static(require("path").join(process.cwd(), "assets/uploads"))
+);
 
 app.use("/", require("./src/routes"));
 
