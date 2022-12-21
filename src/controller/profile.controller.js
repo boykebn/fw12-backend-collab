@@ -22,7 +22,7 @@ exports.readProfile = (req, res) => {
 };
 
 exports.readProfileByToken = (req, res) => {
-  console.log(req.userData);
+  console.log(req.userData.id);
   selectProfile(req.userData.id, (err, data) => {
     if (data.rows.length === 0) {
       return res.status(400).json({
