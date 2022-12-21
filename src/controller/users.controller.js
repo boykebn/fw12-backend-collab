@@ -29,12 +29,14 @@ exports.readUsersBySkill = (req, res) => {
   req.query.limit = parseInt(req.query.limit) || 4;
   req.query.search = req.query.search || "";
   req.query.sortBy = req.query.sortBy || "id";
+  req.query.status = req.query.status || ""
 
   const filter = {
     limit: req.query.limit,
     offset: parseInt(req.query.page - 1) * req.query.limit,
     search: req.query.search,
     sortBy: req.query.sortBy,
+    status: req.query.status
   };
 
   const pageInfo = {
@@ -55,7 +57,7 @@ exports.readUsersBySkill = (req, res) => {
       if (result.rows.length === 0) {
         return res.status(400).json({
           success: false,
-          message: "Movie not found",
+          message: "User not found",
         });
       }
 
